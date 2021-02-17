@@ -2,34 +2,8 @@ from bs4 import BeautifulSoup
 from requests import get as get_request
 from argparse import ArgumentParser
 from re import compile as compile_regex
-from props import Property
 from selenium_driver import gather_commutes
-from smtp_driver import send_message
 from os import path, getcwd
-
-# checks if a property has been visited yet, if not add it to the file
-def in_visited(property_name, is_test):
-  visited_path = getcwd() + "/" + path.dirname(__file__) + "/visited.env"
-  
-  with open(visited_path, "r") as visited:
-    if property_name in visited.read():
-      return True
-
-    if not is_test:
-      with open(visited_path, "a") as visited:
-        visited.write(f"{property_name}\n")
-
-  return False
-
-# checks the current posting against a blacklist of property managers that are dorm-style
-# there is of course the chance of blacklisting posts that mention these buildings, but it is a worthy risk
-def in_blacklist(property_name):
-  black_list = ["UNIVERSITY VIEW", "COMMONS", "COURTYARDS", "LANDMARK", "TERRAPIN ROW", "VARSITY"]
-  
-  if any([org in property_name.upper() for org in black_list]):
-    return True
-  else:
-    return False
 
 # creates and populates a Property object from the postings' pages
 def collect_info(post, is_test):
