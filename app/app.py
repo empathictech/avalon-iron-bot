@@ -4,32 +4,33 @@ from os import path, getcwd
 
 def get_credentials():
   # Retrieves the absolute path to the credentials file regardless of where the script is being run from
-  creds_path = getcwd() + "/" + path.dirname(__file__) + "/credentials.env"
+  creds_path = getcwd() + "/" + path.dirname(__file__) + "credentials.env"
 
   with open(creds_path, "r") as env_file:
     return env_file.read().strip().split()
 
 if __name__ == "__main__":
-  # Direct link to the amenities site
-  url = "https://www.avalonaccess.com/Information/Information/Amenities"
-  
-  web_opts = web_options()
-  web_opts.set_headless()
+  try:
+    # Direct link to the amenities site
+    url = "https://www.avalonaccess.com/Information/Information/Amenities"
+    
+    web_opts = web_options()
+    web_opts.set_headless()
+    browser = Firefox(options=web_opts)
+    
+    browser.get(url)
 
-  browser = Firefox(options=web_opts)
-  
-  browser.get(url)
+    # login
+    username, password = get_credentials()
+    
+    browser.find_element_by_id("UserName").send_keys(username)
+    browser.find_element_by_id("password").send_keys(password)
+    browser.find_element_by_id("submit-sign-in").click()
 
-  # login
-  username, password = get_credentials()
-  
-  browser.find_element_by_id("UserName").send_keys(username)
-  browser.find_element_by_id("password").send_keys(password)
+    # enter reservation screen
+    browser.find_element_by_id("reserve").click()
 
-  browser.find_element_by_id("submit-sign-in").click()
+    print(browser.page_source.encode("utf-8"))
 
-  # enter reservation screen
-
-  browser.find_element_by_id("reserve").click()
-
-  browser.close()
+  finally:
+    browser.close()
