@@ -1,8 +1,6 @@
-from bs4 import BeautifulSoup
 from requests import get as get_request
-from argparse import ArgumentParser
-from re import compile as compile_regex
-from selenium_driver import gather_commutes
+from selenium.webdriver import Firefox
+from selenium.webdriver.firefox.options import Options as web_options
 from os import path, getcwd
 
 # creates and populates a Property object from the postings' pages
@@ -26,16 +24,38 @@ def collect_info(post, is_test):
   return prop
 
 if __name__ == "__main__":
-  cli_parser = ArgumentParser()
+  # Direct link to the amenities site
+  # User is required to login, information is being hidden of course
+  url = "https://www.avalonaccess.com/Information/Information/Amenities"
+  
+  web_opts = web_options()
+  web_opts.set_headless()
 
-  cli_parser.add_argument("--test", "-t", help="Send results to stdout", action="store_true")
-  cli_parser.add_argument("--simple", "-s", help="Do not gather commute info", action="store_true")
+  browser = Firefox(options=web_opts)
+  
+  browser.get(prop.link)
 
-  cli_args = cli_parser.parse_args()
+  # open the map tab
+  browser.find_element_by_id("map_section_tab").click()
 
-  # sadly, https://ochdatabase.umd.edu/, doesn't have an API, but there is a degree of consistency to search queries and their matching URLs
-  # the simplest way forward is to build a search manually and then copy/paste the URL below, as we have done
-  url = "https://ochdatabase.umd.edu/housing/price-under+2100"
+  # gather walking commute info
+  browser.find_element_by_xpath('//*[@title="Walking"]').click()
+  
+  walk_distance = browser.find_elements_by_class_name("directions--distance")[1].text.strip()
+  walk_time = browser.find_elements_by_class_name("directions--time")[1].text.strip()
+
+  # gather bicycle commute info
+  browser.find_element_by_xpath('//*[@title="Biking"]').click()
+
+  bike_distance = browser.find_elements_by_class_name("directions--distance")[1].text.strip()
+  bike_time = browser.find_elements_by_class_name("directions--time")[1].text.strip()
+
+  prop.commute_info = f"""Walking commute: {walk_distance}, {walk_time}
+Biking commute: {bike_distance}, {bike_time}"""
+
+  browser.close()
+  
+  
   page = get_request(url)
   soup = BeautifulSoup(page.content, "html.parser")
   
