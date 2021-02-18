@@ -36,7 +36,18 @@ if __name__ == "__main__":
 
     # Reservation time - the time values on the drop down are appended by the current day
     if cli_args.manual:
-      print("Work in progress!")
+      selection = driver.find_element_by_id("SelStartTime") 
+      options = [option for option in selection.find_elements_by_tag_name("option")]
+      
+      itr = 0
+      for element in options:
+        print(f"{itr}: " + element.get_attribute("value"))
+        itr += 1
+
+      choice = int(input("Please enter integer value for preferred time slot: "))
+
+      selection = Select(driver.find_element_by_id("SelStartTime"))
+      selection.select_by_index(choice)
     else:
       # Default behavior is to reserve 4:00pm for the current day
       day = get_day_name()
