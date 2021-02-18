@@ -3,7 +3,7 @@ from datetime import date
 
 def get_credentials(manual):
   # Retrieves the absolute path to the credentials file regardless of where the script is being run from
-  creds_file_path = getcwd() + "/" + path.dirname(__file__) + "credentials.env"
+  creds_file_path = path.dirname(__file__) + "/credentials.env"
 
   if manual and not path.exists(creds_file_path):
     username = input("Enter username (email): ")
@@ -21,7 +21,7 @@ def get_day_name():
   return day_name.strftime("%A").strip()
 
 def get_name(manual):
-  name_file_path = getcwd() + "/" + path.dirname(__file__) + "name.env"
+  name_file_path = path.dirname(__file__) + "/name.env"
 
   if manual and not path.exists(name_file_path):
     return input("Enter name for reservation: ")
