@@ -39,12 +39,14 @@ if __name__ == "__main__":
       selection = driver.find_element_by_id("SelStartTime") 
       options = [option for option in selection.find_elements_by_tag_name("option")]
       
+      print("Available time slots:\n")
+
       itr = 0
       for element in options:
         print(f"{itr}: " + element.get_attribute("value"))
         itr += 1
 
-      choice = int(input("Please enter integer value for preferred time slot: "))
+      choice = int(input("\nPlease enter integer value for preferred time slot: "))
 
       selection = Select(driver.find_element_by_id("SelStartTime"))
       selection.select_by_index(choice)
