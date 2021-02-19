@@ -1,1 +1,1 @@
-Explain how to contribute to the project here.
+Simply fork the repo and make a pull request!
