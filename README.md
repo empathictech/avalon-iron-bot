@@ -1,8 +1,8 @@
 # Avalon Iron Bot
 
-Python app that automates the process of reserving a gym time slot at https://www.avalonaccess.com/ (Avalon Bay Communities resident portal).
+Python app that automates the process of reserving a gym time slot at [Avalon Bay](https://www.avalonaccess.com/)
 
-This app was created, tested, and used in Spring of 2021. If/when Avalon Bay updates their website(s) there is no gaurantee the app will continue to work.
+This app was created, tested, and used in Spring of 2021. If/when Avalon Bay updates their website there is no gaurantee the app will continue to work.
 
 ## Getting started
 
@@ -11,7 +11,7 @@ The first step, as always, is to clone the repo to your machine. Run
 git clone https://github.com/mwcodebase/och-watchdog.git
 ```
 
-As mentioned, this app is built with Python, so make sure you have Python3 (any sub-version) installed on your machine: https://www.python.org/
+As mentioned, this app is built with Python, so make sure you have [Python3](https://www.python.org/downloads/) installed on your machine.
 
 ### Dependencies/Prerequisites
 
@@ -23,12 +23,7 @@ in the `/app` directory to install them all.
 
 #### Selenium/geckodriver
 
-This app uses Selenium, and is specifically built to use Firefox as its web browser. After installing the Selenium pip package (above) you will need to install geckodriver. Download the latest release here: https://github.com/mozilla/geckodriver/releases At the time of writing, geckodriver has versions for Linux, MacOS, and Windows. Linked below are docs for Selenium and geckodriver if you would like to learn more.
-
-https://selenium-python.readthedocs.io/
-https://github.com/mozilla/geckodriver
-
-Detail the steps required to be able to use the project here.
+This app uses [Selenium](https://selenium-python.readthedocs.io/), and is specifically built to use Firefox as its web browser. After installing the Selenium pip package (above) you will need to install [geckodriver](https://github.com/mozilla/geckodriver).
 
 #### Authenitcation
 
