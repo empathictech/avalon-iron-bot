@@ -3,7 +3,7 @@ from selenium.webdriver import Firefox
 from selenium.webdriver.firefox.options import Options
 from selenium.webdriver.support.ui import Select
 
-from helper import get_credentials, get_name, get_day_name
+from helper import get_credentials, get_day_name, get_name, get_account, fill_consent_form
 
 if __name__ == "__main__":
   # Create optional command line arguments
@@ -20,21 +20,25 @@ if __name__ == "__main__":
     # Direct link to the amenities site
     driver.get("https://www.avalonaccess.com/Information/Information/Amenities")
 
-    # login
+    # Login
     username, password = get_credentials(cli_args.manual)
     
     driver.find_element_by_id("UserName").send_keys(username)
     driver.find_element_by_id("password").send_keys(password)
     driver.find_element_by_id("submit-sign-in").click()
 
-    # enter reservation screen
+    # Collect account name and number
+    name = get_name(driver)
+    account_num = get_account(driver)
+
+    # Enter reservation screen
     driver.find_element_by_id("reserve").click()
 
     ### Fill out form ###
-    # Note: script assumes reservations are being made for the current day
-    # There is a calendar selector, but it defaults to the current day
 
-    # Reservation time - the time values on the drop down are appended by the current day
+    # Chose reservation time
+    # The script assumes reservations are being made for the current day
+    # There is a calendar selector, but it defaults to the current day
     if cli_args.manual:
       selection = driver.find_element_by_id("SelStartTime") 
       options = [option for option in selection.find_elements_by_tag_name("option")]
@@ -56,17 +60,26 @@ if __name__ == "__main__":
       selection = Select(driver.find_element_by_id("SelStartTime"))
       selection.select_by_value(f"{day}-4:00 PM-5:00 PM")
 
-    # Number of people
+    # Fill out number of people field (has to be 1)
     driver.find_element_by_id("NumberOfPeople").clear()
     driver.find_element_by_id("NumberOfPeople").send_keys("1")
 
-    # Names of people on reservation
-    name = get_name(cli_args.manual)
+    # Enter name for reservation
     driver.find_element_by_id("ReservationNames").send_keys(name)
 
-    # Agree to TOS & submit!
+    # Agree to TOS and submit form
     driver.find_element_by_id("reservation-terms").click()
     driver.find_element_by_id("submit-new-reservation").click()
 
   finally:
     driver.close()
+
+  # After the form is submitted, an email with a link to a consent form will be sent to the user
+  # Ask the user for the link, and fill out the consent form if they want
+  form_url = input("Please paste the link to the consent form here (enter \"skip\" to skip): ")
+  form_url = form_url.strip()
+
+  if form_url.lower() == "skip":
+    print("Reservation made, don't forget to fill out the consent form manually!\n")
+  else:
+    fill_consent_form(form_url, account_num)
