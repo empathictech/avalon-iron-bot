@@ -32,7 +32,7 @@ Detail the steps required to be able to use the project here.
 
 #### Authenitcation
 
-The app is built to be fully automatic by default, meaning you will have to provide it with your login credentials and the name of whoever is reserving the gym. You will need to create `credentials.env` and `name.env` files in the `app` directory. They should contain the following information, verbatim.
+The app is built to be fully automatic by default, meaning you will have to provide it with your login credentials. You will need to create a `credentials.env` file in the `app` directory. It should contain the following information, verbatim.
 
 `credentials.env`
 ```text
@@ -40,10 +40,7 @@ email_address
 password
 ```
 
-`name.env`
-```text
-John Doe
-```
+The reservation will be made with the same name that is on the account (which is required by Avalon in the first place).
 
 Notice, the .gitignore file contains `*.env`. While this is not the most elegant solution to avoiding plaintext password leaks, it suffices for a simple app such as this. That being said, if you are uncomfortable having plaintext passwords for whatever reason (potentially a shared machine), then continue reading in the next section for how to run the app manually.
 
@@ -77,6 +74,6 @@ If you would like to contribute to {PROJECT_NAME}, please see how in [CONTRIBUTI
 
 This project is licensed under the terms of the [MIT license](LICENSE.txt).
 
-## Thank you
+## Acknowledgements
 
 Thanks for checking out my project! Now go pick things up and put them down!
