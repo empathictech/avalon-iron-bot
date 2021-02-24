@@ -8,7 +8,8 @@ from helper import get_credentials, get_day_name, get_account_details
 if __name__ == "__main__":
   # Create optional command line arguments
   cli_parser = ArgumentParser()
-  cli_parser.add_argument("--manual", "-m", help="Run and chose time manually", action="store_true")
+  cli_parser.add_argument("--manual", "-m", help="Chose time slot and provide credentials manually", action="store_true")
+  cli_parser.add_argument("--skip", "-s", help="Skip health screening input (will not fill out form)", action="store_true")
   cli_args = cli_parser.parse_args()
 
   # Do the thing
@@ -73,17 +74,20 @@ if __name__ == "__main__":
   finally:
     driver.close()
 
-  # After the form is submitted, an email with a link to a consent form will be sent to the user
-  # Ask the user for the link, and fill out the consent form if they want
-  form_url = input("Please paste the link to the consent form here (enter \"skip\" to skip): ")
+  # After the form is submitted, an email with a link to a health screening will be sent to the user
+  # Ask the user for the link, and fill out the health screening if they want
+  if cli_args.skip:
+    exit(0)
+  
+  form_url = input("Please paste the link to the health screening here (enter \"skip\" to skip): ")
   form_url = form_url.strip()
 
   if form_url.lower() == "skip":
-    print("Reservation made, don't forget to fill out the consent form manually!\n")
+    print("Reservation made, don't forget to fill out the health screening manually!\n")
   else:
-    fill_consent_form(form_url, email, account_num)
+    health_screening(form_url, email, account_num)
 
-def fill_consent_form(form_url, email, account_num):
+def health_screening(form_url, email, account_num):
   try:
     opts = Options()
     opts.headless = True
