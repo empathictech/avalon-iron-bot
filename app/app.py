@@ -3,7 +3,7 @@ from selenium.webdriver import Firefox
 from selenium.webdriver.firefox.options import Options
 from selenium.webdriver.support.ui import Select
 
-from helper import get_credentials, get_day_name, get_name, get_account, fill_consent_form
+from helper import get_credentials, get_day_name, get_account_details, fill_consent_form
 
 if __name__ == "__main__":
   # Create optional command line arguments
@@ -28,8 +28,7 @@ if __name__ == "__main__":
     driver.find_element_by_id("submit-sign-in").click()
 
     # Collect account name and number
-    name = get_name(driver)
-    account_num = get_account(driver)
+    name, account_num = get_account_details(driver)
 
     # Enter reservation screen
     driver.find_element_by_id("reserve").click()
