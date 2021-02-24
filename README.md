@@ -54,7 +54,7 @@ if you are in the repo's `/app` directory, otherwise provide the full path to `a
 
 This bot is also able to fill out Avalon's COVID-19 Health Screening if you provide the link that is sent to your email. As should be obvious, do not use this bot (or the gym) if you have tested positive for COVID, have interacted with someone who has, or are experiencing symptoms of COVID-19. Be safe, don't spread. When using this bot, the user assumes all liability. Authors of the bot cannot be held responsible.
 
-Finally, consider setting up a cron job for the app for even more automagic: https://askubuntu.com/questions/2368/how-do-i-set-up-a-cron-job
+Finally, consider setting up a [cron job](https://askubuntu.com/questions/2368/how-do-i-set-up-a-cron-job) to make the app even more automagical!
 `Note: you will have to provide the --skip option when setting up a cron job, otherwise the script will ask for input`
 
 ### Running manually
