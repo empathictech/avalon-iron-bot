@@ -3,7 +3,7 @@ from selenium.webdriver import Firefox
 from selenium.webdriver.firefox.options import Options
 from selenium.webdriver.support.ui import Select
 
-from helper import get_credentials, get_day_name, get_account_details, fill_consent_form
+from helper import get_credentials, get_day_name, get_account_details
 
 if __name__ == "__main__":
   # Create optional command line arguments
@@ -21,9 +21,9 @@ if __name__ == "__main__":
     driver.get("https://www.avalonaccess.com/Information/Information/Amenities")
 
     # Login
-    username, password = get_credentials(cli_args.manual)
+    email, password = get_credentials(cli_args.manual)
     
-    driver.find_element_by_id("UserName").send_keys(username)
+    driver.find_element_by_id("UserName").send_keys(email)
     driver.find_element_by_id("password").send_keys(password)
     driver.find_element_by_id("submit-sign-in").click()
 
@@ -81,4 +81,34 @@ if __name__ == "__main__":
   if form_url.lower() == "skip":
     print("Reservation made, don't forget to fill out the consent form manually!\n")
   else:
-    fill_consent_form(form_url, account_num)
+    fill_consent_form(form_url, email, account_num)
+
+def fill_consent_form(form_url, email, account_num):
+  try:
+    opts = Options()
+    opts.headless = True
+    driver = Firefox(options=opts)
+
+    driver.get(form_url)
+
+    # The form asks the user if they have any symptoms of COVID-19 or if they have tested positive
+    # The bot selects no for every answer (as is required to make the reservation)
+    # Again, a reminder to only do this if the answers are actually no - be safe, don't spread
+    selection = Select(driver.find_element_by_id("testedPositive"))
+    selection.select_by_value("No")
+    selection = Select(driver.find_element_by_id("symptoms"))
+    selection.select_by_value("No")
+    selection = Select(driver.find_element_by_id("closeContact"))
+    selection.select_by_value("No")
+    selection = Select(driver.find_element_by_id("travelQuarantine"))
+    selection.select_by_value("No")
+
+    # Enter email and account number
+    driver.find_element_by_id("email").send_keys(email)
+    driver.find_element_by_id("accountId").send_keys(account_num)
+
+    # Submit
+    driver.find_element_by_id("formButton").click()
+    
+  finally:
+    driver.close()
