@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Updates
  - Bug fixes for health screening
  - Added option to skip directly to the health screening
+ - Renamed files
 
 ## [0.0.3] - 2021-02-24
 ### Additions
