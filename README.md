@@ -43,9 +43,9 @@ Notice, the .gitignore file contains `*.env`. While this is not the most elegant
 
 If you are using the default configuration (automatically reserve for 4:00pm same day), you are good to go! Run
 ```shell
-python3 app.py
+python3 main.py
 ```
-if you are in the repo's `/app` directory, otherwise provide the full path to `app.py` from wherever you are.
+if you are in the repo's `/app` directory, otherwise provide the full path to `main.py` from wherever you are.
 
 This bot is also able to fill out Avalon's COVID-19 Health Screening if you provide the link that is sent to your email. As should be obvious, do not use this bot (or the gym) if you have tested positive for COVID, have interacted with someone who has, or are experiencing symptoms of COVID-19. Be safe, don't spread. When using this bot, the user assumes all liability. Authors of the bot cannot be held responsible.
 
@@ -56,7 +56,7 @@ Finally, consider setting up a [cron job](https://askubuntu.com/questions/2368/h
 
 The app can also be run manually. Run
 ```shell
-python3 app.py --manual
+python3 main.py --manual
 ```
 and the app will print to stdout the time slots available for the current day and allow you to chose which one you want. Also, if the app does not find the `.env` files discussed in [Authentication](#Authenitcation) it will ask you for your username, password, and name. No manual input is stored by the app.
 
