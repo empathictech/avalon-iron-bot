@@ -29,7 +29,7 @@ jobs:
 
     - name: Hello world action step
       id: hello
-      uses: mwcodebase/versioning-checker
+      uses: actions/versioning-checker
       with:
         who-to-greet: 'Mona the Octocat'
     
