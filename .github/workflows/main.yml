@@ -6,22 +6,20 @@ on:
     branches: [ master ]
 
 jobs:
-  version_check:
+  update_checker:
     runs-on: ubuntu-latest
 
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so the job can access it
       - uses: actions/checkout@v2
 
-      - name: Check if file has changed
-        run: [[ 1 ==  git diff --exit-code APP_VERSION ]]
+      - name: Gather changed files
+        run: git-diff --name-only >> changed.txt
 
-  log_check:
-    runs-on: ubuntu-latest
+      - name: Check if APP_VERSION has changed
+        if: grep -Fq APP_VERSION changed.txt
+        run: echo "APP_VERSION has been updated"
 
-    steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so the job can access it
-      - uses: actions/checkout@v2
-
-      - name: Check if file has changed
-        run: [[ 1 ==  git diff --exit-code CHANGELOG.md ]]
+      - name: Check if CHANGELOG has changed
+        if: grep -Fq CHANGELOG.md changed.txt
+        run: echo "CHANGELOG has been updated"
