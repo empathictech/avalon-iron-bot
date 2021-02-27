@@ -6,20 +6,38 @@ on:
     branches: [ master ]
 
 jobs:
-  update_checker:
+  version_check:
     runs-on: ubuntu-latest
 
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so the job can access it
       - uses: actions/checkout@v2
 
-      - name: Gather changed files
-        run: git-diff --name-only >> changed.txt
+      - name: Get git diff value
+        id: main
+        run: |
+          OUTPUT=$(git diff --exit-code APP_VERSION) &&
+          echo "::set-output name=OUTPUT::$OUTPUT"
 
-      - name: Check if APP_VERSION has changed
-        if: grep -Fq APP_VERSION changed.txt
-        run: echo "APP_VERSION has been updated"
+      - name: Assert file has changed
+        if: steps.main.outputs.OUTPUT == 1
+        run: |
+          echo "APP_VERSION has been updated"
 
-      - name: Check if CHANGELOG has changed
-        if: grep -Fq CHANGELOG.md changed.txt
-        run: echo "CHANGELOG has been updated"
+  log_check:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so the job can access it
+      - uses: actions/checkout@v2
+
+      - name: Check if file has changed
+        id: main
+        run: |
+          OUTPUT=$(git diff --exit-code CHANGELOG.md) &&
+          echo "::set-output name=OUTPUT::$OUTPUT"
+
+      - name: Assert file has changed
+        if: steps.main.outputs.OUTPUT == 1
+        run: |
+          echo "CHANGELOG.md has been updated"
