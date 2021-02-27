@@ -1,43 +1,37 @@
-name: Check for updated APP_VERSION and CHANGELOG
+name: Super-Linter
 
+# Triggers the workflow on pull request events for the master branch
 on:
-  # Triggers the workflow on pull request events for the master branch
   pull_request:
     branches: [ master ]
 
 jobs:
-  version_check:
+  super-lint:
+    name: A job for linting the code base
     runs-on: ubuntu-latest
 
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so the job can access it
-      - uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-      - name: Get git diff value
-        id: main
-        run: |
-          OUTPUT=$(git diff --exit-code APP_VERSION) &&
-          echo "::set-output name=OUTPUT::$OUTPUT"
+      - name: Run Super-Linter
+        uses: github/super-linter@v3
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Assert file has changed
-        if: steps.main.outputs.OUTPUT == 1
-        run: |
-          echo "APP_VERSION has been updated"
-
-  log_check:
+  versioning_check:
+    name: A job for checking if the APP_VERSION and CHANGELOG files have been updated
     runs-on: ubuntu-latest
-
+    
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so the job can access it
-      - uses: actions/checkout@v2
+    - name: Checkout code
+      uses: actions/checkout@v2
 
-      - name: Check if file has changed
-        id: main
-        run: |
-          OUTPUT=$(git diff --exit-code CHANGELOG.md) &&
-          echo "::set-output name=OUTPUT::$OUTPUT"
-
-      - name: Assert file has changed
-        if: steps.main.outputs.OUTPUT == 1
-        run: |
-          echo "CHANGELOG.md has been updated"
+    - name: Hello world action step
+      id: hello
+      uses: mwcodebase/versioning-checker
+      with:
+        who-to-greet: 'Mona the Octocat'
+    
+    - name: Get the output time
+      run: echo "The time was ${{ steps.hello.outputs.time }}"
