@@ -19,19 +19,9 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-  versioning_check:
-    name: A job for checking if the APP_VERSION and CHANGELOG files have been updated
+  version_check:
     runs-on: ubuntu-latest
-    
+    name: Checks APP_VERSION and CHANGELOG.md files for updates.
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
-
-    - name: Hello world action step
-      id: hello
-      uses: mwcodebase/versioning-checker@v0.2-alpha
-      with:
-        who-to-greet: 'Mona the Octocat'
-    
-    - name: Get the output time
-      run: echo "The time was ${{ steps.hello.outputs.time }}"
+    - name: Version check action
+      uses: mwcodebase/versioning-checker@v0.3-testing
