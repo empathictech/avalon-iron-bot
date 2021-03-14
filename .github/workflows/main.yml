@@ -12,5 +12,3 @@ jobs:
     steps:
     - name: Version check action
       uses: mwcodebase/versioning-checker@0.0.1
-      with:
-        token: ${{secrets.GITHUB_TOKEN}}
