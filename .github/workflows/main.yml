@@ -12,5 +12,3 @@ jobs:
     steps:
     - name: Version check action
       uses: mwcodebase/versioning-checker@v2.0
-      with:
-        tracked_files: "main.py,CHANGELOG.md,APP_VERSION"
