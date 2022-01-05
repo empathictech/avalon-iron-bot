@@ -8,7 +8,7 @@ This app was created, tested, and used in Spring of 2021. If/when Avalon Bay upd
 
 The first step, as always, is to clone the repo to your machine. Run
 ```shell
-git clone https://github.com/mwcodebase/och-watchdog.git
+git clone https://github.com/mwcodebase/avalon-iron-bot.git
 ```
 
 As mentioned, this app is built with Python, so make sure you have [Python3](https://www.python.org/downloads/) installed on your machine.
