@@ -60,18 +60,8 @@ python3 main.py --manual
 ```
 and the app will print to stdout the time slots available for the current day and allow you to chose which one you want. Also, if the app does not find the `.env` files discussed in [Authentication](#Authenitcation) it will ask you for your username, password, and name. No manual input is stored by the app.
 
-## FAQ
+# Contributing
 
-If you have any questions or issues, you might find a solution in the [FAQ](FAQ.md)
-
-## Contributing
-
-If you would like to contribute to {PROJECT_NAME}, please see how in [CONTRIBUTING](CONTRIBUTING.md)
-
-## License
-
-This project is licensed under the terms of the [MIT license](LICENSE.txt).
-
-## Acknowledgements
+However you like! Reach out, leave comment, open an issue, open a PR, make your own fork; the options under an MIT license are numerous.
 
 Thanks for checking out my project! Now go pick things up and put them down!
